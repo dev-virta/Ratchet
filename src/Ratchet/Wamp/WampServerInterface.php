@@ -17,6 +17,27 @@ interface WampServerInterface extends ComponentInterface {
      */
     function onCall(ConnectionInterface $conn, $id, $topic, array $params);
 
+	/**
+	 * An RPC call result has been received.
+	 *
+	 * @param ConnectionInterface $conn
+	 * @param string $id This must be the exact same id that is in the call request so that the recipient can match request and result.
+	 * @param array $params Payload is a JSON object containing the results of the executed Action.
+	 */
+	function onCallResult(ConnectionInterface $conn, $id, array $params);
+
+	/**
+	 * An RPC call error has been received.
+	 *
+	 * @param ConnectionInterface $conn
+	 * @param string $id This must be the exact same id that is in the call request so that the recipient can match request and result.
+	 * @param string $errorCode This string must contain one of the from the ErrorCode table below.
+	 * @param string $errorDescription Should be filled in if possible, otherwise a clear empty string ''.
+	 * @param array $errorDetails This JSON object describes error details in an undefined way. If there are no error details you should fill in an empty object {}, missing or null is not allowed.
+	 */
+	function onCallError(ConnectionInterface $conn, $id, $errorCode, $errorDescription, array $errorDetails);
+
+    
     /**
      * A request to subscribe to a topic has been made
      * @param \Ratchet\ConnectionInterface $conn

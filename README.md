@@ -1,3 +1,8 @@
+# Note
+This is a modified WAMP protocol so that it can work with OCPP-Json protocol. The changes in this fork including:
+- Implement CAALL_RESULT and CALL_ERROR requests sent from Clients.
+- Remove WELCOME message on connection
+
 # Ratchet
 
 [![Build Status](https://secure.travis-ci.org/ratchetphp/Ratchet.png?branch=master)](http://travis-ci.org/ratchetphp/Ratchet)
