@@ -15,9 +15,9 @@ use Ratchet\ConnectionInterface;
  * |--------------+----+------------------+
  * | WELCOME      | 0  | Server-to-Client |
  * | PREFIX       | 1  | Bi-Directional   |
- * | CALL         | 2  | Client-to-Server |
- * | CALL RESULT  | 3  | Server-to-Client |
- * | CALL ERROR   | 4  | Server-to-Client |
+ * | CALL         | 2  | Bi-Directional   |
+ * | CALL RESULT  | 3  | Bi-Directional   |
+ * | CALL ERROR   | 4  | Bi-Directional   |
  * | SUBSCRIBE    | 5  | Client-to-Server |
  * | UNSUBSCRIBE  | 6  | Client-to-Server |
  * | PUBLISH      | 7  | Client-to-Server |
@@ -114,6 +114,25 @@ class ServerProtocol implements MessageComponentInterface, WsServerInterface {
                 $this->_decorating->onCall($from, $callID, $from->getUri($procURI), $json);
             break;
 
+	        case static::MSG_CALL_RESULT:
+		        array_shift($json);
+		        $callResultID = array_shift($json);
+		        $params = array_shift($json);
+
+		        $this->_decorating->onCallResult($from, $callResultID, $params);
+			break;
+
+			case static::MSG_CALL_ERROR:
+				array_shift($json);
+				$callErrorID = array_shift($json);
+				$errorCode = array_shift($json);
+				$errorDescription = array_shift($json);
+				$errorDetails = array_shift($json);
+
+				$this->_decorating->onCallError($from, $callErrorID, $errorCode, $errorDescription, $errorDetails);
+			break;
+
+                
             case static::MSG_SUBSCRIBE:
                 $this->_decorating->onSubscribe($from, $from->getUri($json[1]));
             break;

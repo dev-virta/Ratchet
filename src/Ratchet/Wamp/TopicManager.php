@@ -32,6 +32,20 @@ class TopicManager implements WsServerInterface, WampServerInterface {
     public function onCall(ConnectionInterface $conn, $id, $topic, array $params) {
         $this->app->onCall($conn, $id, $this->getTopic($topic), $params);
     }
+    
+    /**
+	 * {@inheritdoc}
+	 */
+	public function onCallResult(ConnectionInterface $conn, $id, array $params){
+		$this->app->onCallResult($conn, $id, $params);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function onCallError(ConnectionInterface $conn, $id, $errorCode, $errorDescription, array $errorDetails){
+		$this->app->onCallError($conn, $id, $errorCode, $errorDescription, $errorDetails);
+	}
 
     /**
      * {@inheritdoc}
