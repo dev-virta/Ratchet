@@ -127,6 +127,8 @@ class IoServer {
         }
 
         unset($conn->decor);
+
+        gc_collect_cycles();
     }
 
     /**
